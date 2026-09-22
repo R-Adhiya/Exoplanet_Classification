@@ -1,0 +1,5 @@
+model,baseline_accuracy,tuned_accuracy,delta_accuracy,baseline_precision,tuned_precision,delta_precision,baseline_recall,tuned_recall,delta_recall,baseline_f1,tuned_f1,delta_f1,baseline_roc_auc,tuned_roc_auc,delta_roc_auc,baseline_pr_auc,tuned_pr_auc,delta_pr_auc
+Logistic Regression,0.8254,0.8314,0.006,0.7403,0.7517,0.0114,0.7982,0.7982,0.0,0.7682,0.7743,0.0061,0.8955,0.8978,0.0023,0.752,0.7566,0.0046
+Decision Tree,0.8834,0.9038,0.0204,0.8255,0.8544,0.0289,0.86,0.8855,0.0255,0.8424,0.8696,0.0272,0.8783,0.9451,0.0668,0.7606,0.8796,0.119
+Random Forest,0.9315,0.9302,-0.0013,0.9084,0.9066,-0.0018,0.9018,0.9,-0.0018,0.9051,0.9033,-0.0018,0.9772,0.9773,0.0001,0.9557,0.9589,0.0032
+XGBoost,0.9341,0.9354,0.0013,0.9091,0.9094,0.0003,0.9091,0.9127,0.0036,0.9091,0.9111,0.002,0.9797,0.9817,0.002,0.962,0.9654,0.0034

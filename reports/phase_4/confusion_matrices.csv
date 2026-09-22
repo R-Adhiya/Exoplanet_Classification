@@ -1,0 +1,5 @@
+model,true_negative,false_positive,false_negative,true_positive
+Logistic Regression,823,145,111,439
+Decision Tree,885,83,63,487
+Random Forest,917,51,55,495
+XGBoost,918,50,48,502

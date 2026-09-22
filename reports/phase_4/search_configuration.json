@@ -1,0 +1,136 @@
+{
+  "Logistic Regression": {
+    "search_type": "grid",
+    "n_combinations_or_iter": 5,
+    "n_cv_folds": 5,
+    "n_total_fits": 25,
+    "primary_scoring": "average_precision",
+    "random_state": 42,
+    "parameter_space": {
+      "C": [
+        0.01,
+        0.1,
+        1,
+        10,
+        100
+      ],
+      "solver": [
+        "lbfgs"
+      ],
+      "penalty": [
+        "l2"
+      ]
+    }
+  },
+  "Decision Tree": {
+    "search_type": "grid",
+    "n_combinations_or_iter": 160,
+    "n_cv_folds": 5,
+    "n_total_fits": 800,
+    "primary_scoring": "average_precision",
+    "random_state": 42,
+    "parameter_space": {
+      "max_depth": [
+        3,
+        5,
+        8,
+        12,
+        null
+      ],
+      "min_samples_split": [
+        2,
+        5,
+        10,
+        20
+      ],
+      "min_samples_leaf": [
+        1,
+        2,
+        5,
+        10
+      ],
+      "criterion": [
+        "gini",
+        "entropy"
+      ]
+    }
+  },
+  "Random Forest": {
+    "search_type": "random",
+    "n_combinations_or_iter": 20,
+    "n_cv_folds": 5,
+    "n_total_fits": 100,
+    "primary_scoring": "average_precision",
+    "random_state": 42,
+    "parameter_space": {
+      "n_estimators": [
+        200,
+        400
+      ],
+      "max_depth": [
+        null,
+        10,
+        20
+      ],
+      "min_samples_split": [
+        2,
+        5
+      ],
+      "min_samples_leaf": [
+        1,
+        2
+      ],
+      "max_features": [
+        "sqrt",
+        "log2"
+      ]
+    }
+  },
+  "XGBoost": {
+    "search_type": "random",
+    "n_combinations_or_iter": 20,
+    "n_cv_folds": 5,
+    "n_total_fits": 100,
+    "primary_scoring": "average_precision",
+    "random_state": 42,
+    "parameter_space": {
+      "n_estimators": [
+        100,
+        200,
+        300,
+        500
+      ],
+      "max_depth": [
+        3,
+        4,
+        5,
+        6,
+        8
+      ],
+      "learning_rate": [
+        0.01,
+        0.03,
+        0.05,
+        0.1,
+        0.2
+      ],
+      "subsample": [
+        0.7,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "colsample_bytree": [
+        0.7,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "min_child_weight": [
+        1,
+        3,
+        5
+      ]
+    }
+  }
+}
