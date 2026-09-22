@@ -1,0 +1,13 @@
+model,strategy,accuracy,precision,recall,f1,roc_auc,pr_auc,true_negative,false_positive,false_negative,true_positive
+Logistic Regression,baseline,0.8314,0.7517,0.7982,0.7743,0.8978,0.7566,823,145,111,439
+Decision Tree,baseline,0.9038,0.8544,0.8855,0.8696,0.9451,0.8796,885,83,63,487
+Random Forest,baseline,0.9302,0.9066,0.9,0.9033,0.9773,0.9589,917,51,55,495
+XGBoost,baseline,0.9354,0.9094,0.9127,0.9111,0.9817,0.9654,918,50,48,502
+Logistic Regression,class_weight,0.8202,0.6981,0.8873,0.7814,0.8975,0.753,757,211,62,488
+Decision Tree,class_weight,0.8999,0.8149,0.9364,0.8714,0.9454,0.8767,851,117,35,515
+Random Forest,class_weight,0.9302,0.8841,0.9291,0.906,0.9772,0.9577,901,67,39,511
+XGBoost,class_weight,0.9387,0.8988,0.9364,0.9172,0.9824,0.9661,910,58,35,515
+Logistic Regression,SMOTE,0.8235,0.7032,0.8873,0.7846,0.8982,0.7565,762,206,62,488
+Decision Tree,SMOTE,0.8986,0.8333,0.9,0.8654,0.9456,0.8804,869,99,55,495
+Random Forest,SMOTE,0.9308,0.8897,0.9236,0.9063,0.9768,0.9532,905,63,42,508
+XGBoost,SMOTE,0.942,0.9038,0.94,0.9216,0.9824,0.9676,913,55,33,517

@@ -1,0 +1,13 @@
+model,strategy,true_negative,false_positive,false_negative,true_positive
+Logistic Regression,baseline,823,145,111,439
+Decision Tree,baseline,885,83,63,487
+Random Forest,baseline,917,51,55,495
+XGBoost,baseline,918,50,48,502
+Logistic Regression,class_weight,757,211,62,488
+Decision Tree,class_weight,851,117,35,515
+Random Forest,class_weight,901,67,39,511
+XGBoost,class_weight,910,58,35,515
+Logistic Regression,SMOTE,762,206,62,488
+Decision Tree,SMOTE,869,99,55,495
+Random Forest,SMOTE,905,63,42,508
+XGBoost,SMOTE,913,55,33,517
