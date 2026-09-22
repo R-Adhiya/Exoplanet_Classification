@@ -1,0 +1,42 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Streamlit secrets (never commit)
+.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build / dist
+dist/
+build/
+*.egg-info/
+
+# Temp / scratch
+*.tmp
+*.log
+*.bak
+
+# Large raw data (optional -- keep processed data and model)
+# data/raw/cumulative_kois.csv
