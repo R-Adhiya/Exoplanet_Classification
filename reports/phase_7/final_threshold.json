@@ -1,0 +1,11 @@
+{
+  "threshold": 0.61,
+  "selection_method": "OOF F1 maximized subject to recall >= 0.9; tie-break: closest to 0.50",
+  "n_folds": 5,
+  "random_state": 42,
+  "recall_constraint": 0.9,
+  "oof_f1": 0.904,
+  "oof_recall": 0.9081,
+  "oof_precision": 0.8999,
+  "recall_constraint_met": true
+}

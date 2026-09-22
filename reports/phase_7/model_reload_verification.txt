@@ -1,0 +1,6 @@
+Model reload verification
+  Sample size: 20
+  Probabilities match (atol=1e-6): True
+  Predictions match: True
+  Max absolute probability difference: 0.00e+00
+  Status: PASS

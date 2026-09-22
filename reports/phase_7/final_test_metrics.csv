@@ -1,0 +1,2 @@
+accuracy,precision,recall,f1,roc_auc,pr_auc,specificity,balanced_accuracy,false_positive_rate,false_negative_rate,true_negative,false_positive,false_negative,true_positive
+0.9354,0.9124,0.9091,0.9107,0.9824,0.9661,0.9504,0.9298,0.0496,0.0909,920,48,50,500

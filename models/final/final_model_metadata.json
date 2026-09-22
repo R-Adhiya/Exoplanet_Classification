@@ -1,0 +1,39 @@
+{
+  "project": "Kepler Exoplanet Classification",
+  "phase": 7,
+  "model_type": "XGBoost",
+  "imbalance_strategy": "class_weight",
+  "hyperparameters": {
+    "subsample": 0.7,
+    "n_estimators": 200,
+    "min_child_weight": 3,
+    "max_depth": 8,
+    "learning_rate": 0.05,
+    "colsample_bytree": 0.9
+  },
+  "threshold": 0.61,
+  "scale_pos_weight": 1.7611,
+  "primary_metric": "PR-AUC",
+  "threshold_metric": "F1 subject to recall >= 0.9",
+  "random_state": 42,
+  "feature_count": 11,
+  "features": [
+    "koi_period",
+    "koi_duration",
+    "koi_depth",
+    "koi_prad",
+    "koi_impact",
+    "koi_model_snr",
+    "koi_teq",
+    "koi_insol",
+    "koi_steff",
+    "koi_slogg",
+    "koi_srad"
+  ],
+  "python_version": "3.12.10",
+  "sklearn_version": "1.9.1",
+  "xgboost_version": "3.4.1",
+  "imblearn_version": "0.14.2",
+  "numpy_version": "2.5.3",
+  "pandas_version": "2.2.3"
+}

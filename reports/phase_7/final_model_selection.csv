@@ -1,0 +1,13 @@
+model,strategy,cv_pr_auc_mean,cv_pr_auc_std,cv_roc_auc_mean,cv_roc_auc_std,cv_precision_mean,cv_recall_mean,cv_f1_mean,selection_status,selection_reason
+Logistic Regression,baseline,0.7582,0.0275,0.8963,0.011,0.7361,0.8226,0.7765,not_selected,
+Decision Tree,baseline,0.876,0.0223,0.9408,0.0072,0.8413,0.8763,0.8583,not_selected,
+Random Forest,baseline,0.9463,0.0095,0.9717,0.0043,0.8804,0.889,0.8846,not_selected,
+XGBoost,baseline,0.955,0.0095,0.9768,0.0031,0.8947,0.9104,0.9024,not_selected,
+Logistic Regression,class_weight,0.754,0.028,0.8955,0.0112,0.6906,0.9063,0.7837,not_selected,
+Decision Tree,class_weight,0.8737,0.0146,0.9415,0.0052,0.8075,0.9176,0.8589,not_selected,
+Random Forest,class_weight,0.9462,0.008,0.9719,0.0039,0.858,0.9163,0.8861,not_selected,
+XGBoost,class_weight,0.9556,0.0086,0.9767,0.0031,0.873,0.9304,0.9007,selected,Highest CV PR-AUC with lowest std among top configurations
+Logistic Regression,SMOTE,0.7563,0.0283,0.8962,0.0109,0.6924,0.9045,0.7841,not_selected,
+Decision Tree,SMOTE,0.8569,0.0203,0.9366,0.0066,0.8263,0.8899,0.8567,not_selected,
+Random Forest,SMOTE,0.9439,0.0089,0.9714,0.0041,0.8637,0.909,0.8857,not_selected,
+XGBoost,SMOTE,0.953,0.0096,0.9762,0.0034,0.8744,0.9263,0.8995,not_selected,
