@@ -1,0 +1,5 @@
+feature,skewness_before,skewness_after,reduction
+koi_period,3.0221,0.7188,2.3033
+koi_depth,4.168,1.0424,3.1256
+koi_prad,48.4196,1.2174,47.2022
+koi_insol,43.8303,0.1559,43.6744

@@ -1,0 +1,3 @@
+split,total,confirmed,false_pos,pct_confirmed,pct_false_pos
+train,6069,2198,3871,36.22,63.78
+test,1518,550,968,36.23,63.77

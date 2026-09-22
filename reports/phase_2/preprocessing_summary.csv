@@ -1,0 +1,17 @@
+metric,value
+total_labeled,7587
+train_samples,6069
+test_samples,1518
+input_features,11
+output_features,11
+missing_train_before,1821
+missing_test_before,470
+missing_train_after,0
+missing_test_after,0
+train_max_abs_mean,0.0
+train_min_std,1.0
+random_state,42
+stratified,True
+imputer_strategy,median
+log_transformed_count,4
+plain_scaled_count,7
