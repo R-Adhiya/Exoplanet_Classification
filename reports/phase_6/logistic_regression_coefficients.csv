@@ -1,0 +1,12 @@
+feature,coefficient,absolute_coefficient,feature_description
+koi_prad,-7.225088,7.225088,Estimated planetary radius
+koi_depth,4.618614,4.618614,Transit depth
+koi_slogg,-4.326848,4.326848,Stellar surface gravity
+koi_srad,-4.112215,4.112215,Stellar radius
+koi_period,-3.130285,3.130285,Orbital period of the KOI candidate
+koi_teq,-2.739158,2.739158,Estimated equilibrium temperature
+koi_insol,-2.102712,2.102712,Incident stellar flux / insolation
+koi_impact,1.079913,1.079913,Transit impact parameter
+koi_steff,0.71102,0.71102,Stellar effective temperature
+koi_duration,-0.651181,0.651181,Transit duration
+koi_model_snr,-0.350108,0.350108,Transit model signal-to-noise ratio

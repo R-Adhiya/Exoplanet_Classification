@@ -1,0 +1,12 @@
+feature,top5_occurrences,total_methods,feature_description
+koi_period,12,12,Orbital period of the KOI candidate
+koi_prad,12,12,Estimated planetary radius
+koi_model_snr,9,12,Transit model signal-to-noise ratio
+koi_teq,6,12,Estimated equilibrium temperature
+koi_duration,6,12,Transit duration
+koi_depth,4,12,Transit depth
+koi_insol,4,12,Incident stellar flux / insolation
+koi_impact,3,12,Transit impact parameter
+koi_slogg,3,12,Stellar surface gravity
+koi_srad,1,12,Stellar radius
+koi_steff,0,12,Stellar effective temperature

@@ -1,0 +1,45 @@
+model,feature,mean_abs_shap,feature_description
+Logistic Regression,koi_period,2.456442,Orbital period of the KOI candidate
+Logistic Regression,koi_depth,3.719759,Transit depth
+Logistic Regression,koi_prad,6.709623,Estimated planetary radius
+Logistic Regression,koi_insol,1.737414,Incident stellar flux / insolation
+Logistic Regression,koi_duration,0.379378,Transit duration
+Logistic Regression,koi_impact,0.199453,Transit impact parameter
+Logistic Regression,koi_model_snr,0.18326,Transit model signal-to-noise ratio
+Logistic Regression,koi_teq,2.219306,Estimated equilibrium temperature
+Logistic Regression,koi_steff,0.521815,Stellar effective temperature
+Logistic Regression,koi_slogg,3.039844,Stellar surface gravity
+Logistic Regression,koi_srad,1.573168,Stellar radius
+Decision Tree,koi_period,0.110225,Orbital period of the KOI candidate
+Decision Tree,koi_depth,0.017603,Transit depth
+Decision Tree,koi_prad,0.176396,Estimated planetary radius
+Decision Tree,koi_insol,0.0155,Incident stellar flux / insolation
+Decision Tree,koi_duration,0.05932,Transit duration
+Decision Tree,koi_impact,0.035773,Transit impact parameter
+Decision Tree,koi_model_snr,0.089339,Transit model signal-to-noise ratio
+Decision Tree,koi_teq,0.072328,Estimated equilibrium temperature
+Decision Tree,koi_steff,0.012237,Stellar effective temperature
+Decision Tree,koi_slogg,0.017607,Stellar surface gravity
+Decision Tree,koi_srad,0.017472,Stellar radius
+Random Forest,koi_period,0.055663,Orbital period of the KOI candidate
+Random Forest,koi_depth,0.037357,Transit depth
+Random Forest,koi_prad,0.123867,Estimated planetary radius
+Random Forest,koi_insol,0.051691,Incident stellar flux / insolation
+Random Forest,koi_duration,0.034041,Transit duration
+Random Forest,koi_impact,0.051129,Transit impact parameter
+Random Forest,koi_model_snr,0.072213,Transit model signal-to-noise ratio
+Random Forest,koi_teq,0.044799,Estimated equilibrium temperature
+Random Forest,koi_steff,0.019481,Stellar effective temperature
+Random Forest,koi_slogg,0.016561,Stellar surface gravity
+Random Forest,koi_srad,0.016638,Stellar radius
+XGBoost,koi_period,0.705657,Orbital period of the KOI candidate
+XGBoost,koi_depth,0.460424,Transit depth
+XGBoost,koi_prad,1.350327,Estimated planetary radius
+XGBoost,koi_insol,0.486528,Incident stellar flux / insolation
+XGBoost,koi_duration,0.559372,Transit duration
+XGBoost,koi_impact,0.466015,Transit impact parameter
+XGBoost,koi_model_snr,0.798584,Transit model signal-to-noise ratio
+XGBoost,koi_teq,0.192664,Estimated equilibrium temperature
+XGBoost,koi_steff,0.30031,Stellar effective temperature
+XGBoost,koi_slogg,0.18287,Stellar surface gravity
+XGBoost,koi_srad,0.442224,Stellar radius

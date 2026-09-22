@@ -1,0 +1,5 @@
+method,models_supported,global_or_local,strength,limitation
+Coefficients (LR),Logistic Regression,Global,Signed direction; easily interpretable for linear models,Only valid for linear models; requires standardized features
+Native tree importance,"Decision Tree, Random Forest, XGBoost",Global,Fast; built into tree models,Biased toward high-cardinality and correlated features
+Permutation importance,All,Global,Model-agnostic; based on held-out performance drop,Slow; can distribute importance across correlated features
+SHAP (TreeExplainer / LinearExplainer),All,Both,Theoretically grounded; local and global; shows direction,Computationally expensive; can be complex to interpret when features are correlated

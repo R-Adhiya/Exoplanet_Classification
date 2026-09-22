@@ -1,0 +1,61 @@
+model,method,rank,feature,importance
+Logistic Regression,native,1,koi_prad,7.225088
+Logistic Regression,native,2,koi_depth,4.618614
+Logistic Regression,native,3,koi_slogg,4.326848
+Logistic Regression,native,4,koi_srad,4.112215
+Logistic Regression,native,5,koi_period,3.130285
+Logistic Regression,permutation,1,koi_prad,0.438782
+Logistic Regression,permutation,2,koi_period,0.237796
+Logistic Regression,permutation,3,koi_teq,0.230003
+Logistic Regression,permutation,4,koi_depth,0.211091
+Logistic Regression,permutation,5,koi_slogg,0.2018
+Logistic Regression,shap,1,koi_prad,6.709623
+Logistic Regression,shap,2,koi_depth,3.719759
+Logistic Regression,shap,3,koi_slogg,3.039844
+Logistic Regression,shap,4,koi_period,2.456442
+Logistic Regression,shap,5,koi_teq,2.219306
+Decision Tree,native,1,koi_prad,0.294727
+Decision Tree,native,2,koi_period,0.172967
+Decision Tree,native,3,koi_model_snr,0.170261
+Decision Tree,native,4,koi_duration,0.107239
+Decision Tree,native,5,koi_teq,0.100359
+Decision Tree,permutation,1,koi_prad,0.273184
+Decision Tree,permutation,2,koi_period,0.13709
+Decision Tree,permutation,3,koi_model_snr,0.135767
+Decision Tree,permutation,4,koi_teq,0.131495
+Decision Tree,permutation,5,koi_duration,0.089473
+Decision Tree,shap,1,koi_prad,0.176396
+Decision Tree,shap,2,koi_period,0.110225
+Decision Tree,shap,3,koi_model_snr,0.089339
+Decision Tree,shap,4,koi_teq,0.072328
+Decision Tree,shap,5,koi_duration,0.05932
+Random Forest,native,1,koi_prad,0.188386
+Random Forest,native,2,koi_model_snr,0.154589
+Random Forest,native,3,koi_period,0.107905
+Random Forest,native,4,koi_insol,0.093993
+Random Forest,native,5,koi_depth,0.087648
+Random Forest,permutation,1,koi_prad,0.140926
+Random Forest,permutation,2,koi_model_snr,0.078476
+Random Forest,permutation,3,koi_duration,0.051841
+Random Forest,permutation,4,koi_impact,0.037345
+Random Forest,permutation,5,koi_period,0.024539
+Random Forest,shap,1,koi_prad,0.123867
+Random Forest,shap,2,koi_model_snr,0.072213
+Random Forest,shap,3,koi_period,0.055663
+Random Forest,shap,4,koi_insol,0.051691
+Random Forest,shap,5,koi_impact,0.051129
+XGBoost,native,1,koi_prad,0.232593
+XGBoost,native,2,koi_teq,0.127505
+XGBoost,native,3,koi_model_snr,0.124805
+XGBoost,native,4,koi_period,0.116854
+XGBoost,native,5,koi_insol,0.079715
+XGBoost,permutation,1,koi_prad,0.129458
+XGBoost,permutation,2,koi_model_snr,0.102569
+XGBoost,permutation,3,koi_duration,0.072433
+XGBoost,permutation,4,koi_period,0.040339
+XGBoost,permutation,5,koi_impact,0.030881
+XGBoost,shap,1,koi_prad,1.350327
+XGBoost,shap,2,koi_model_snr,0.798584
+XGBoost,shap,3,koi_period,0.705657
+XGBoost,shap,4,koi_duration,0.559372
+XGBoost,shap,5,koi_insol,0.486528
