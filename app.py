@@ -19,10 +19,11 @@ import streamlit as st
 # ---------------------------------------------------------------------------
 # Paths -- ALL relative so the app is portable
 # ---------------------------------------------------------------------------
-BASE_DIR    = Path(__file__).resolve().parent
-MODEL_PATH  = BASE_DIR / "models" / "final" / "final_model.pkl"
-META_PATH   = BASE_DIR / "models" / "final" / "final_model_metadata.json"
-CAND_CSV    = BASE_DIR / "data" / "processed" / "X_candidate_processed.csv"
+BASE_DIR         = Path(__file__).resolve().parent
+MODEL_PATH       = BASE_DIR / "models" / "final" / "final_model.pkl"
+META_PATH        = BASE_DIR / "models" / "final" / "final_model_metadata.json"
+PREPROCESSOR_PATH = BASE_DIR / "models" / "preprocessor.pkl"
+CAND_CSV         = BASE_DIR / "data" / "processed" / "X_candidate_processed.csv"
 CAND_PRED   = BASE_DIR / "reports" / "phase_7" / "candidate_predictions.csv"
 TEST_METRICS= BASE_DIR / "reports" / "phase_7" / "final_test_metrics.csv"
 THR_JSON    = BASE_DIR / "reports" / "phase_7" / "final_threshold.json"
@@ -145,6 +146,15 @@ def load_model():
     return joblib.load(MODEL_PATH)
 
 
+@st.cache_resource(show_spinner=False)
+def load_preprocessor():
+    """Load the Phase 2 fitted preprocessing pipeline (imputer + log + scaler)."""
+    if not PREPROCESSOR_PATH.exists():
+        st.error(f"Preprocessor not found: {PREPROCESSOR_PATH}")
+        st.stop()
+    return joblib.load(PREPROCESSOR_PATH)
+
+
 @st.cache_data(show_spinner=False)
 def load_metadata():
     with open(META_PATH) as fh:
@@ -172,20 +182,59 @@ def load_threshold_info():
 # ---------------------------------------------------------------------------
 # Prediction helpers
 # ---------------------------------------------------------------------------
-def predict_single(model, X_df: pd.DataFrame, threshold: float):
-    """Return (label, probability) for a single-row DataFrame."""
-    X_ordered = X_df[REQUIRED_FEATURES]
-    proba = float(model.predict_proba(X_ordered)[0, 1])
+def _get_booster_feature_order(model) -> list:
+    """Return the exact feature name list the XGBoost booster expects."""
+    return model.get_booster().feature_names
+
+
+def predict_single(model, preprocessor, X_raw: pd.DataFrame, threshold: float):
+    """
+    Preprocess raw UI inputs then predict.
+
+    Steps:
+      1. Run X_raw through the Phase 2 preprocessor (imputation + log + scaling).
+      2. Reconstruct a DataFrame with the preprocessor's output column names.
+      3. Reorder columns to match model.get_booster().feature_names exactly.
+      4. Call model.predict_proba on the correctly ordered array.
+
+    X_raw must contain exactly the 11 raw-scale feature columns.
+    """
+    booster_cols = _get_booster_feature_order(model)
+
+    # Step 1 -- preprocess (returns a numpy array)
+    X_proc_arr = preprocessor.transform(X_raw[REQUIRED_FEATURES])
+
+    # Step 2 -- rebuild as DataFrame with preprocessor output column names
+    # The ColumnTransformer outputs log-features first, then plain-features
+    # (matching booster_cols order). We name them using booster_cols directly.
+    X_proc = pd.DataFrame(X_proc_arr, columns=booster_cols)
+
+    # Step 3 -- explicit reorder guard (no-op if already correct, safety net otherwise)
+    X_final = X_proc[booster_cols]
+
+    # Step 4 -- predict
+    proba = float(model.predict_proba(X_final)[0, 1])
     label = "CONFIRMED" if proba >= threshold else "FALSE POSITIVE"
     return label, proba
 
 
-def predict_batch(model, X_df: pd.DataFrame, threshold: float) -> pd.DataFrame:
-    """Return predictions DataFrame preserving extra columns."""
-    X_feat = X_df[REQUIRED_FEATURES]
-    probas = model.predict_proba(X_feat)[:, 1]
+def predict_batch(model, preprocessor, X_raw: pd.DataFrame, threshold: float) -> pd.DataFrame:
+    """
+    Preprocess batch CSV inputs then predict.
+    Preserves any extra identifier columns from the original DataFrame.
+    """
+    booster_cols = _get_booster_feature_order(model)
+
+    # Preprocess feature columns only
+    X_proc_arr = preprocessor.transform(X_raw[REQUIRED_FEATURES])
+    X_proc     = pd.DataFrame(X_proc_arr, columns=booster_cols,
+                               index=X_raw.index)
+    X_final    = X_proc[booster_cols]
+
+    probas = model.predict_proba(X_final)[:, 1]
     labels = ["CONFIRMED" if p >= threshold else "FALSE POSITIVE" for p in probas]
-    result = X_df.copy()
+
+    result = X_raw.copy()
     result["predicted_class"]       = labels
     result["predicted_probability"] = probas.round(4)
     result["threshold"]             = threshold
@@ -249,6 +298,7 @@ def plot_probability_bar(proba: float, threshold: float) -> None:
 # ---------------------------------------------------------------------------
 def page_single_prediction(model, metadata):
     threshold = float(metadata["threshold"])
+    preprocessor = load_preprocessor()
 
     st.title("🔭 Single KOI Prediction")
     show_disclaimer()
@@ -307,7 +357,7 @@ def page_single_prediction(model, metadata):
             return
 
         X_input = pd.DataFrame([vals])[REQUIRED_FEATURES]
-        label, proba = predict_single(model, X_input, threshold)
+        label, proba = predict_single(model, preprocessor, X_input, threshold)
 
         st.markdown("---")
         st.subheader("Model Prediction")
@@ -361,6 +411,7 @@ def page_single_prediction(model, metadata):
 # ---------------------------------------------------------------------------
 def page_batch_prediction(model, metadata):
     threshold = float(metadata["threshold"])
+    preprocessor = load_preprocessor()
 
     st.title("📋 Batch KOI Prediction")
     show_disclaimer()
@@ -419,7 +470,7 @@ def page_batch_prediction(model, metadata):
     # Predict
     with st.spinner("Running predictions..."):
         try:
-            result_df = predict_batch(model, df, threshold)
+            result_df = predict_batch(model, preprocessor, df, threshold)
         except Exception as exc:
             st.error(f"Prediction error: {exc}")
             return
