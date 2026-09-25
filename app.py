@@ -915,20 +915,44 @@ research purposes.
 # MAIN
 # ---------------------------------------------------------------------------
 def main():
-    # Load model and metadata at startup (cached)
+    # ── Session-state page routing ──────────────────────────────────────────
+    if "app_page" not in st.session_state:
+        st.session_state.app_page = "landing"
+
+    # Landing page -- full-bleed, no sidebar
+    if st.session_state.app_page == "landing":
+        _render_landing()
+        return
+
+    # ── Classifier pages -- restore sidebar ─────────────────────────────────
     model    = load_model()
     metadata = load_metadata()
 
-    # Sidebar navigation
-    st.sidebar.image(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/"
-        "Kepler_Space_Telescope.jpg/220px-Kepler_Space_Telescope.jpg",
-        use_container_width=True,
-    )
+    # Back-to-home button at very top
+    st.markdown("""
+<style>
+.back-btn button {
+    background: transparent !important;
+    border: 1px solid rgba(103,232,249,0.3) !important;
+    color: #67e8f9 !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.1em !important;
+    padding: 6px 16px !important;
+}
+.back-btn button:hover {
+    border-color: #67e8f9 !important;
+    background: rgba(103,232,249,0.08) !important;
+}
+</style>""", unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="back-btn">', unsafe_allow_html=True)
+        if st.button("← Back to Home"):
+            st.session_state.app_page = "landing"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
     st.sidebar.markdown("## 🔭 Kepler Classifier")
-    st.sidebar.markdown(
-        "Explainable ML for KOI Candidate Verification"
-    )
+    st.sidebar.markdown("Explainable ML for KOI Candidate Verification")
     st.sidebar.markdown("---")
 
     page = st.sidebar.radio(
@@ -950,7 +974,6 @@ def main():
         "Not a scientific confirmation instrument."
     )
 
-    # Route
     if page == "Single Prediction":
         page_single_prediction(model, metadata)
     elif page == "Batch Prediction":
@@ -963,6 +986,475 @@ def main():
         page_explainability()
     elif page == "About":
         page_about()
+
+
+# ---------------------------------------------------------------------------
+# LANDING PAGE RENDERER
+# ---------------------------------------------------------------------------
+def _render_landing():
+    """
+    Full-screen cinematic space-themed landing page.
+    Navigation is handled entirely by Streamlit session state --
+    no fragile JS required. CTA buttons call st.rerun() after
+    setting st.session_state.app_page = 'classifier'.
+    """
+    # Hide Streamlit chrome for full-bleed effect
+    st.markdown("""
+<style>
+[data-testid="stAppViewContainer"] > .main > div { padding: 0 !important; max-width: 100% !important; }
+[data-testid="stAppViewContainer"] { padding: 0 !important; }
+section[data-testid="stSidebar"]   { display: none !important; }
+header[data-testid="stHeader"]     { display: none !important; }
+#MainMenu, footer                  { display: none !important; }
+/* Remove top padding Streamlit adds before stMarkdownContainer */
+.block-container { padding: 0 !important; max-width: 100% !important; }
+</style>""", unsafe_allow_html=True)
+
+    # ── FULL HTML/CSS LANDING ──────────────────────────────────────────────
+    st.markdown("""
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* ===== BASE ===== */
+.lp{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:#030712;color:#e2e8f0;overflow-x:hidden;line-height:1.6}
+/* ===== STARFIELD ===== */
+.lp-stars{position:fixed;top:0;left:0;width:100%;height:100%;
+  background:#030712;overflow:hidden;pointer-events:none;z-index:0}
+.lp-stars::before,.lp-stars::after{content:'';position:absolute;
+  width:100%;height:100%;background-image:
+    radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 35%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 8%,rgba(165,243,252,.8) 0%,transparent 100%),
+    radial-gradient(1px 1px at 55% 45%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 20%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 82% 60%,rgba(165,243,252,.9) 0%,transparent 100%),
+    radial-gradient(1px 1px at 15% 70%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 90% 40%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 5% 90%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 65% 75%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 48% 55%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 32% 80%,rgba(165,243,252,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 78% 85%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 20% 50%,rgba(165,243,252,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 95% 12%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 92%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 38% 25%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 75%,rgba(165,243,252,.8) 0%,transparent 100%);
+  animation:twinkle 4s ease-in-out infinite alternate}
+.lp-stars::after{animation-delay:2s;opacity:.6}
+@keyframes twinkle{from{opacity:.6}to{opacity:1}}
+/* nebula blobs */
+.lp-nebula{position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0}
+.lp-nebula::before{content:'';position:absolute;
+  width:70%;height:70%;top:-10%;left:-20%;
+  background:radial-gradient(ellipse,rgba(99,102,241,.06) 0%,rgba(59,130,246,.04) 40%,transparent 70%);
+  animation:nebula-drift 20s ease-in-out infinite alternate}
+.lp-nebula::after{content:'';position:absolute;
+  width:60%;height:60%;bottom:-5%;right:-10%;
+  background:radial-gradient(ellipse,rgba(139,92,246,.06) 0%,rgba(103,232,249,.03) 40%,transparent 70%);
+  animation:nebula-drift 25s ease-in-out infinite alternate-reverse}
+@keyframes nebula-drift{from{transform:translate(0,0) scale(1)}
+  to{transform:translate(20px,10px) scale(1.05)}}
+/* ===== WRAPPER ===== */
+.lp-wrap{position:relative;z-index:1}
+/* ===== NAVBAR ===== */
+.lp-nav{position:sticky;top:0;display:flex;align-items:center;
+  justify-content:space-between;padding:18px 5vw;
+  background:rgba(3,7,18,.65);backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(103,232,249,.07);z-index:50}
+.lp-brand{display:flex;align-items:center;gap:10px;
+  font-size:.95rem;font-weight:700;letter-spacing:.14em;color:#f0f9ff;
+  text-transform:uppercase}
+.lp-orbit{width:26px;height:26px;border:2px solid #67e8f9;border-radius:50%;
+  position:relative;box-shadow:0 0 10px rgba(103,232,249,.4)}
+.lp-orbit::before{content:'';position:absolute;width:7px;height:7px;
+  background:#67e8f9;border-radius:50%;top:50%;left:50%;
+  transform:translateX(-50%) translateY(-50%);
+  box-shadow:0 0 6px #67e8f9;
+  animation:orbit-spin 3s linear infinite;transform-origin:3px -9px}
+@keyframes orbit-spin{from{transform:rotate(0deg) translate(0,-12px)}
+  to{transform:rotate(360deg) translate(0,-12px)}}
+.lp-nav-links{display:flex;gap:28px;list-style:none}
+.lp-nav-links a{text-decoration:none;color:#64748b;font-size:.72rem;
+  font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  transition:color .25s}
+.lp-nav-links a:hover{color:#67e8f9}
+/* ===== HERO ===== */
+.lp-hero{min-height:100vh;display:flex;align-items:center;
+  padding:80px 5vw 60px;overflow:hidden}
+.lp-hero-grid{display:grid;grid-template-columns:1fr 1fr;
+  gap:40px;align-items:center;width:100%;max-width:1400px;margin:0 auto}
+.lp-eyebrow{font-family:'Courier New',monospace;font-size:.67rem;
+  letter-spacing:.25em;color:#67e8f9;text-transform:uppercase;margin-bottom:18px}
+.lp-eyebrow::before{content:'// ';opacity:.4}
+.lp-h1{font-size:clamp(3rem,6vw,5.8rem);font-weight:800;line-height:1;
+  letter-spacing:-.02em;color:#f0f9ff;margin-bottom:18px}
+.lp-h1 .cy{display:block;color:#67e8f9;
+  text-shadow:0 0 30px rgba(103,232,249,.45),0 0 60px rgba(103,232,249,.18)}
+.lp-sub{font-size:.88rem;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:#475569;margin-bottom:16px}
+.lp-desc{font-size:.97rem;line-height:1.8;color:#64748b;
+  max-width:480px;margin-bottom:32px}
+.lp-btns{display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  margin-bottom:44px}
+/* Note: actual CTA buttons are rendered as st.button() below */
+.lp-stats{display:flex;gap:0;flex-wrap:wrap}
+.lp-stat{padding:12px 24px;border-right:1px solid rgba(103,232,249,.07)}
+.lp-stat:first-child{padding-left:0}
+.lp-stat:last-child{border-right:none}
+.lp-stat-n{font-size:1.5rem;font-weight:800;color:#e2e8f0;letter-spacing:-.01em}
+.lp-stat-l{font-family:'Courier New',monospace;font-size:.6rem;
+  letter-spacing:.18em;color:#334155;text-transform:uppercase}
+/* ===== PLANET VISUAL ===== */
+.lp-planet-scene{position:relative;display:flex;align-items:center;
+  justify-content:center;height:520px}
+.lp-aura{position:absolute;width:430px;height:430px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(103,232,249,.04) 0%,
+    rgba(99,102,241,.05) 40%,transparent 70%);
+  animation:aura 5s ease-in-out infinite}
+@keyframes aura{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.06);opacity:1}}
+.lp-ring{position:absolute;border-radius:50%;border:1px solid rgba(103,232,249,.1)}
+.lp-ring-1{width:390px;height:390px;animation:ring-r 28s linear infinite;
+  transform:rotateX(72deg)}
+.lp-ring-2{width:320px;height:320px;border-style:dashed;
+  border-color:rgba(139,92,246,.08);animation:ring-r 18s linear infinite reverse;
+  transform:rotateX(72deg)}
+@keyframes ring-r{from{transform:rotateX(72deg) rotateZ(0)}to{transform:rotateX(72deg) rotateZ(360deg)}}
+.lp-planet{position:relative;width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle at 33% 28%,#1a3558 0%,#0a1728 35%,#060b16 65%,#030508 100%);
+  box-shadow:-20px -15px 35px rgba(103,232,249,.07),0 0 0 1.5px rgba(103,232,249,.05),
+    0 0 55px rgba(99,102,241,.12),inset 10px 8px 35px rgba(103,232,249,.04);
+  animation:pfloat 7s ease-in-out infinite;z-index:2;overflow:hidden}
+@keyframes pfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+.lp-atm{position:absolute;inset:-3px;border-radius:50%;
+  background:radial-gradient(circle at 28% 24%,rgba(103,232,249,.15) 0%,transparent 55%);
+  pointer-events:none}
+.lp-scan{position:absolute;inset:0;border-radius:50%;overflow:hidden;pointer-events:none;z-index:3}
+.lp-scan-l{position:absolute;width:100%;height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(103,232,249,.3),transparent);
+  animation:scan 4s linear infinite;top:0}
+@keyframes scan{from{top:0;opacity:1}to{top:100%;opacity:0}}
+.lp-moon{position:absolute;width:32px;height:32px;border-radius:50%;
+  background:radial-gradient(circle at 33% 28%,#243350,#0e1622);
+  box-shadow:-3px -2px 7px rgba(103,232,249,.1);
+  animation:moon-o 13s linear infinite;top:50%;left:50%}
+@keyframes moon-o{from{transform:rotate(0deg) translate(130px) rotate(0deg)}
+  to{transform:rotate(360deg) translate(130px) rotate(-360deg)}}
+/* HUD cards */
+.lp-hud{position:absolute;z-index:5;font-family:'Courier New',monospace;
+  font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(3,7,18,.72);backdrop-filter:blur(8px);
+  border:1px solid rgba(103,232,249,.12);border-radius:5px;
+  padding:7px 11px;color:#67e8f9;white-space:nowrap;
+  animation:hfloat 5s ease-in-out infinite}
+@keyframes hfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.lp-hud::before,.lp-hud::after{content:'';position:absolute;
+  width:6px;height:6px;border-color:rgba(103,232,249,.4);border-style:solid}
+.lp-hud::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.lp-hud::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+.lp-dot{display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:#67e8f9;box-shadow:0 0 5px #67e8f9;margin-right:5px;
+  animation:blink 2s step-start infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.hud-lbl{color:#334155;display:block;font-size:.52rem}
+.hud-val{font-weight:700}
+.h1{top:12%;left:0%;animation-delay:0s}
+.h2{top:38%;left:-2%;animation-delay:1.4s}
+.h3{bottom:16%;left:3%;animation-delay:.7s}
+.h4{top:16%;right:0%;animation-delay:2s}
+.h5{bottom:18%;right:2%;animation-delay:1.1s}
+/* ===== SECTIONS ===== */
+.lp-sect{position:relative;z-index:1;padding:100px 5vw;border-top:1px solid rgba(103,232,249,.05)}
+.lp-sect-inner{max-width:1180px;margin:0 auto}
+.lp-lbl{font-family:'Courier New',monospace;font-size:.62rem;
+  letter-spacing:.28em;color:#67e8f9;text-transform:uppercase;margin-bottom:18px}
+.lp-lbl::before{content:'// ';opacity:.4}
+.lp-h2{font-size:clamp(2.2rem,4vw,3.6rem);font-weight:800;
+  line-height:1.05;letter-spacing:-.02em;color:#f0f9ff;margin-bottom:24px}
+.lp-txt{font-size:.95rem;line-height:1.8;color:#475569;max-width:520px}
+/* Mission grid */
+.lp-mission-g{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.lp-tl{display:flex;flex-direction:column;gap:0;margin-top:8px}
+.lp-tl-step{display:flex;gap:18px;align-items:flex-start}
+.lp-tl-l{display:flex;flex-direction:column;align-items:center;min-width:30px}
+.lp-tld{width:9px;height:9px;border-radius:50%;background:#67e8f9;
+  box-shadow:0 0 8px #67e8f9;flex-shrink:0;margin-top:4px}
+.lp-tll{width:1px;flex:1;min-height:30px;
+  background:linear-gradient(to bottom,rgba(103,232,249,.25),rgba(103,232,249,.03))}
+.lp-tc{padding-bottom:26px}
+.lp-tt{font-family:'Courier New',monospace;font-size:.7rem;
+  letter-spacing:.16em;color:#67e8f9;text-transform:uppercase;font-weight:700}
+.lp-ts{font-size:.8rem;color:#334155;margin-top:3px}
+/* Problem cards */
+.lp-prob-g{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.lp-pcard{background:rgba(5,11,24,.8);border:1px solid rgba(103,232,249,.07);
+  border-radius:14px;padding:36px;position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s}
+.lp-pcard:hover{border-color:rgba(103,232,249,.18);transform:translateY(-4px)}
+.lp-pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(103,232,249,.15),transparent)}
+.lp-ctype{font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}
+.cconf{color:#34d399}.cfp{color:#f87171}
+.lp-ctitle{font-size:1.4rem;font-weight:700;color:#e2e8f0;margin-bottom:10px}
+.lp-cdesc{font-size:.84rem;color:#334155;line-height:1.7}
+.lp-cbadge{display:inline-block;margin-top:18px;padding:4px 10px;
+  border-radius:3px;font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.13em;text-transform:uppercase}
+.bdgc{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.18);color:#34d399}
+.bdgf{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.18);color:#f87171}
+/* Process steps */
+.lp-proc-g{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
+.lp-pstep{background:rgba(5,11,24,.7);border:1px solid rgba(103,232,249,.07);
+  border-radius:10px;padding:28px 22px;transition:border-color .3s,transform .3s}
+.lp-pstep:hover{border-color:rgba(103,232,249,.16);transform:translateY(-3px)}
+.lp-pnum{font-family:'Courier New',monospace;font-size:2.2rem;font-weight:800;
+  color:rgba(103,232,249,.09);line-height:1;margin-bottom:14px}
+.lp-ptitle{font-size:.76rem;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;color:#67e8f9;margin-bottom:8px}
+.lp-pdesc{font-size:.8rem;color:#334155;line-height:1.65}
+/* Feature cards */
+.lp-feat-g{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:48px}
+.lp-fcard{background:rgba(5,11,24,.6);border:1px solid rgba(103,232,249,.07);
+  border-radius:10px;padding:28px;display:flex;gap:20px;
+  transition:border-color .3s,background .3s}
+.lp-fcard:hover{border-color:rgba(103,232,249,.15);background:rgba(5,11,24,.85)}
+.lp-ficon{font-size:1.7rem;flex-shrink:0;margin-top:2px}
+.lp-fnum{font-family:'Courier New',monospace;font-size:.58rem;
+  letter-spacing:.18em;color:rgba(103,232,249,.35);margin-bottom:5px}
+.lp-ftitle{font-size:.85rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:#cbd5e1;margin-bottom:7px}
+.lp-fdesc{font-size:.8rem;color:#334155;line-height:1.65}
+/* CTA section */
+.lp-cta-sect{position:relative;z-index:1;padding:130px 5vw;
+  text-align:center;border-top:1px solid rgba(103,232,249,.05)}
+.lp-cta-sect::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(99,102,241,.07) 0%,transparent 65%);
+  pointer-events:none}
+.lp-cta-inner{position:relative;max-width:650px;margin:0 auto}
+.lp-cta-h{font-size:clamp(2.5rem,5vw,4.2rem);font-weight:800;
+  line-height:1.06;letter-spacing:-.02em;color:#f0f9ff;margin-bottom:20px}
+.lp-cta-d{font-size:.95rem;color:#475569;line-height:1.8;margin-bottom:36px}
+/* Footer */
+.lp-foot{position:relative;z-index:1;border-top:1px solid rgba(103,232,249,.05);
+  padding:44px 5vw}
+.lp-foot-g{max-width:1180px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.lp-fbrand{display:flex;align-items:center;gap:9px;
+  font-size:.85rem;font-weight:700;letter-spacing:.12em;
+  color:#e2e8f0;text-transform:uppercase;margin-bottom:10px}
+.lp-ftag{font-size:.75rem;color:#1e293b;line-height:1.6}
+.lp-flinks{display:flex;gap:24px;flex-wrap:wrap;justify-content:flex-end}
+.lp-flinks a{text-decoration:none;font-size:.72rem;letter-spacing:.08em;
+  text-transform:uppercase;color:#1e293b;transition:color .25s;cursor:pointer}
+.lp-flinks a:hover{color:#334155}
+.lp-fbot{max-width:1180px;margin:28px auto 0;padding-top:22px;
+  border-top:1px solid rgba(255,255,255,.03);
+  font-family:'Courier New',monospace;font-size:.6rem;
+  letter-spacing:.12em;color:#0f172a;text-align:center;text-transform:uppercase}
+/* ===== RESPONSIVE ===== */
+@media(max-width:860px){
+  .lp-hero-grid,.lp-mission-g,.lp-prob-g,.lp-feat-g,.lp-foot-g{grid-template-columns:1fr}
+  .lp-planet-scene{height:320px;order:-1}
+  .lp-planet{width:180px;height:180px}
+  .lp-ring-1{width:290px;height:290px}
+  .lp-ring-2{width:240px;height:240px}
+  .lp-proc-g{grid-template-columns:repeat(2,1fr)}
+  .lp-nav-links{display:none}
+  .lp-flinks{justify-content:flex-start}
+}
+@media(max-width:520px){
+  .lp-proc-g{grid-template-columns:1fr}
+  .lp-stats{gap:0}
+  .lp-stat{padding:10px 16px}
+}
+</style>
+
+<div class="lp">
+<div class="lp-stars"></div>
+<div class="lp-nebula"></div>
+<div class="lp-wrap">
+
+<!-- NAV -->
+<nav class="lp-nav">
+  <div class="lp-brand">
+    <div class="lp-orbit"></div>
+    EXOPLANET AI
+  </div>
+  <ul class="lp-nav-links">
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#works">How It Works</a></li>
+    <li><a href="#features">Features</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="lp-hero" id="home">
+  <div class="lp-hero-grid">
+    <div>
+      <p class="lp-eyebrow">NASA Kepler &mdash; Artificial Intelligence</p>
+      <h1 class="lp-h1">DISCOVER<br><span class="cy">WORLDS</span>BEYOND.</h1>
+      <p class="lp-sub">AI-powered classification of Kepler Objects of Interest</p>
+      <p class="lp-desc">Analyze stellar and transit properties to distinguish confirmed exoplanets from false positive signals detected by the Kepler telescope.</p>
+      <!-- CTA placeholder -- actual Streamlit buttons injected below -->
+      <div id="lp-cta-anchor" style="height:1px"></div>
+    </div>
+    <!-- PLANET -->
+    <div class="lp-planet-scene">
+      <div class="lp-aura"></div>
+      <div class="lp-ring lp-ring-1"></div>
+      <div class="lp-ring lp-ring-2"></div>
+      <div class="lp-planet">
+        <div class="lp-atm"></div>
+        <div class="lp-scan"><div class="lp-scan-l"></div></div>
+      </div>
+      <div class="lp-moon"></div>
+      <div class="lp-hud h1"><span class="lp-dot"></span><span class="hud-lbl">KOI Classification</span><span class="hud-val">ACTIVE</span></div>
+      <div class="lp-hud h2"><span class="lp-dot"></span><span class="hud-lbl">Transit Signal</span><span class="hud-val">DETECTED</span></div>
+      <div class="lp-hud h3"><span class="lp-dot"></span><span class="hud-lbl">Stellar Data</span><span class="hud-val">SYNCED</span></div>
+      <div class="lp-hud h4"><span class="lp-dot"></span><span class="hud-lbl">AI Analysis</span><span class="hud-val">RUNNING</span></div>
+      <div class="lp-hud h5"><span class="lp-dot"></span><span class="hud-lbl">XGBoost Model</span><span class="hud-val">LOADED</span></div>
+    </div>
+  </div>
+  <!-- Stats -->
+  <div style="max-width:1400px;margin:48px auto 0;padding:0 0">
+    <div class="lp-stats">
+      <div class="lp-stat"><div class="lp-stat-n">150K+</div><div class="lp-stat-l">Stars Observed</div></div>
+      <div class="lp-stat"><div class="lp-stat-n">9K+</div><div class="lp-stat-l">KOIs Analyzed</div></div>
+      <div class="lp-stat"><div class="lp-stat-n">ML</div><div class="lp-stat-l">Classification</div></div>
+      <div class="lp-stat"><div class="lp-stat-n">SHAP</div><div class="lp-stat-l">Explainability</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="lp-sect" id="mission">
+  <div class="lp-sect-inner">
+    <p class="lp-lbl">The Mission</p>
+    <div class="lp-mission-g">
+      <div>
+        <h2 class="lp-h2">Finding a planet<br>in a drop of light.</h2>
+        <p class="lp-txt">NASA&rsquo;s Kepler telescope monitored over 150,000 stars continuously. When a planet passes in front of its host star, the star&rsquo;s brightness drops by a tiny fraction &mdash; creating a &ldquo;transit signal.&rdquo; Our ML system learns to distinguish genuine planetary transits from all other astrophysical and instrumental effects.</p>
+      </div>
+      <div class="lp-tl">
+        <div class="lp-tl-step"><div class="lp-tl-l"><div class="lp-tld"></div><div class="lp-tll"></div></div><div class="lp-tc"><div class="lp-tt">Star</div><div class="lp-ts">Kepler monitors stellar brightness</div></div></div>
+        <div class="lp-tl-step"><div class="lp-tl-l"><div class="lp-tld"></div><div class="lp-tll"></div></div><div class="lp-tc"><div class="lp-tt">Transit</div><div class="lp-ts">Periodic brightness dip is detected</div></div></div>
+        <div class="lp-tl-step"><div class="lp-tl-l"><div class="lp-tld"></div><div class="lp-tll"></div></div><div class="lp-tc"><div class="lp-tt">Light Curve</div><div class="lp-ts">Transit shape and depth are measured</div></div></div>
+        <div class="lp-tl-step"><div class="lp-tl-l"><div class="lp-tld"></div><div class="lp-tll"></div></div><div class="lp-tc"><div class="lp-tt">KOI</div><div class="lp-ts">Candidate catalogued for investigation</div></div></div>
+        <div class="lp-tl-step"><div class="lp-tl-l"><div class="lp-tld" style="background:#a78bfa;box-shadow:0 0 8px #a78bfa"></div></div><div class="lp-tc"><div class="lp-tt" style="color:#a78bfa">AI Classification</div><div class="lp-ts">Model predicts: Confirmed or False Positive</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="lp-sect" id="problem">
+  <div class="lp-sect-inner">
+    <p class="lp-lbl">The Problem</p>
+    <h2 class="lp-h2">Not every signal<br>is a planet.</h2>
+    <div class="lp-prob-g">
+      <div class="lp-pcard">
+        <div class="lp-ctype cconf">// Confirmed Exoplanet</div>
+        <div class="lp-ctitle">🪐 Real World</div>
+        <div class="lp-cdesc">A genuine planet transiting its host star. Transit depth, duration, and shape are consistent with a planetary body. Signal-to-noise ratio is high and repeatable across multiple observations.</div>
+        <span class="lp-cbadge bdgc">Target&nbsp;=&nbsp;1</span>
+      </div>
+      <div class="lp-pcard">
+        <div class="lp-ctype cfp">// False Positive</div>
+        <div class="lp-ctitle">⭐ Stellar Mimic</div>
+        <div class="lp-cdesc">A brightness dip caused by a background eclipsing binary, a grazing stellar eclipse, or instrumental artifacts. These can closely resemble planetary transits but require different physical explanations.</div>
+        <span class="lp-cbadge bdgf">Target&nbsp;=&nbsp;0</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="lp-sect" id="works">
+  <div class="lp-sect-inner">
+    <p class="lp-lbl">How It Works</p>
+    <h2 class="lp-h2">From starlight<br>to insight.</h2>
+    <div class="lp-proc-g">
+      <div class="lp-pstep"><div class="lp-pnum">01</div><div class="lp-ptitle">Input</div><div class="lp-pdesc">Kepler candidate measurements: orbital period, transit depth, duration, planetary radius, stellar properties.</div></div>
+      <div class="lp-pstep"><div class="lp-pnum">02</div><div class="lp-ptitle">Analyze</div><div class="lp-pdesc">XGBoost processes 11 standardized features. Trained on 6,069 labeled KOIs with class-imbalance handling.</div></div>
+      <div class="lp-pstep"><div class="lp-pnum">03</div><div class="lp-ptitle">Classify</div><div class="lp-pdesc">Model outputs a probability. Threshold 0.61 applied to label the candidate as Confirmed or False Positive.</div></div>
+      <div class="lp-pstep"><div class="lp-pnum">04</div><div class="lp-ptitle">Explain</div><div class="lp-pdesc">SHAP values reveal which features drove the prediction. Planetary radius and SNR are consistently most influential.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="lp-sect" id="features">
+  <div class="lp-sect-inner">
+    <p class="lp-lbl">Capabilities</p>
+    <h2 class="lp-h2">Built for<br>exoplanet analysis.</h2>
+    <div class="lp-feat-g">
+      <div class="lp-fcard"><div class="lp-ficon">🤖</div><div><div class="lp-fnum">// 01</div><div class="lp-ftitle">Multi-Model AI</div><div class="lp-fdesc">Logistic Regression, Decision Tree, Random Forest, and XGBoost compared with 5-fold CV and PR-AUC as primary metric.</div></div></div>
+      <div class="lp-fcard"><div class="lp-ficon">⚖️</div><div><div class="lp-fnum">// 02</div><div class="lp-ftitle">Imbalance Handling</div><div class="lp-fdesc">Class weighting and SMOTE (inside CV folds) tested for the 36/64 class split. XGBoost scale_pos_weight = 1.7611.</div></div></div>
+      <div class="lp-fcard"><div class="lp-ficon">🔍</div><div><div class="lp-fnum">// 03</div><div class="lp-ftitle">Explainable AI</div><div class="lp-fdesc">SHAP TreeExplainer for global and local explanations. Permutation importance cross-validates feature rankings.</div></div></div>
+      <div class="lp-fcard"><div class="lp-ficon">🚀</div><div><div class="lp-fnum">// 04</div><div class="lp-ftitle">Interactive Analysis</div><div class="lp-fdesc">Single-KOI prediction form, batch CSV upload, and candidate explorer for 1,977 unlabeled Kepler objects.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA placeholder (Streamlit button injected below) -->
+<section class="lp-cta-sect" id="launch">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(99,102,241,.07) 0%,transparent 65%);pointer-events:none"></div>
+  <div class="lp-cta-inner">
+    <p class="lp-lbl" style="text-align:center">// Mission Control</p>
+    <h2 class="lp-cta-h">Ready to explore<br><span class="cy">a new world?</span></h2>
+    <p class="lp-cta-d">Enter a Kepler Object of Interest and let AI analyze the evidence hidden in its stellar signal.</p>
+    <div id="lp-final-cta-anchor" style="height:1px"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="lp-foot">
+  <div class="lp-foot-g">
+    <div>
+      <div class="lp-fbrand"><div class="lp-orbit" style="width:20px;height:20px"></div>EXOPLANET AI</div>
+      <div class="lp-ftag">AI-powered exploration of Kepler Objects of Interest.<br>Not a scientific confirmation instrument.</div>
+    </div>
+    <nav class="lp-flinks">
+      <a href="#mission">Mission</a>
+      <a href="#works">How It Works</a>
+      <a href="#features">Features</a>
+    </nav>
+  </div>
+  <div class="lp-fbot">Built with Machine Learning &bull; Explainable AI &bull; NASA Kepler Data</div>
+</footer>
+
+</div></div>
+""", unsafe_allow_html=True)
+
+    # ── Streamlit CTA buttons (session-state navigation -- reliable) ─────────
+    # Injected into the page flow directly after the HTML block.
+    # They appear below the hero section in Streamlit's layout.
+    st.markdown("---")
+    col_a, col_b, col_c = st.columns([1, 2, 1])
+    with col_b:
+        st.markdown(
+            "<p style='text-align:center;font-family:Courier New,monospace;"
+            "font-size:.7rem;letter-spacing:.2em;color:#475569;text-transform:uppercase;"
+            "margin-bottom:12px'>// Launch the classifier to begin</p>",
+            unsafe_allow_html=True,
+        )
+        if st.button("🚀  START EXPLORING  →", use_container_width=True, type="primary"):
+            st.session_state.app_page = "classifier"
+            st.rerun()
+        st.markdown(
+            "<p style='text-align:center;font-size:.75rem;color:#1e293b;"
+            "margin-top:10px;font-family:Courier New,monospace;letter-spacing:.1em'>"
+            "Predictions are ML outputs — not scientific confirmation</p>",
+            unsafe_allow_html=True,
+        )
+
+
 
 
 if __name__ == "__main__":
