@@ -1090,7 +1090,7 @@ header[data-testid="stHeader"]     { display: none !important; }
   gap:40px;align-items:center;width:100%;max-width:1400px;margin:0 auto}
 .lp-eyebrow{font-family:'Courier New',monospace;font-size:.67rem;
   letter-spacing:.25em;color:#67e8f9;text-transform:uppercase;margin-bottom:18px}
-.lp-eyebrow::before{content:'// ';opacity:.4}
+.lp-eyebrow::before{content:'';opacity:.4}
 .lp-h1{font-size:clamp(3rem,6vw,5.8rem);font-weight:800;line-height:1;
   letter-spacing:-.02em;color:#f0f9ff;margin-bottom:18px}
 .lp-h1 .cy{display:block;color:#67e8f9;
@@ -1172,7 +1172,7 @@ header[data-testid="stHeader"]     { display: none !important; }
 .lp-sect-inner{max-width:1180px;margin:0 auto}
 .lp-lbl{font-family:'Courier New',monospace;font-size:.62rem;
   letter-spacing:.28em;color:#67e8f9;text-transform:uppercase;margin-bottom:18px}
-.lp-lbl::before{content:'// ';opacity:.4}
+.lp-lbl::before{content:'';opacity:.4}
 .lp-h2{font-size:clamp(2.2rem,4vw,3.6rem);font-weight:800;
   line-height:1.05;letter-spacing:-.02em;color:#f0f9ff;margin-bottom:24px}
 .lp-txt{font-size:.95rem;line-height:1.8;color:#475569;max-width:520px}
@@ -1359,13 +1359,13 @@ header[data-testid="stHeader"]     { display: none !important; }
     <h2 class="lp-h2">Not every signal<br>is a planet.</h2>
     <div class="lp-prob-g">
       <div class="lp-pcard">
-        <div class="lp-ctype cconf">// Confirmed Exoplanet</div>
+        <div class="lp-ctype cconf">Confirmed Exoplanet</div>
         <div class="lp-ctitle">🪐 Real World</div>
         <div class="lp-cdesc">A genuine planet transiting its host star. Transit depth, duration, and shape are consistent with a planetary body. Signal-to-noise ratio is high and repeatable across multiple observations.</div>
         <span class="lp-cbadge bdgc">Target&nbsp;=&nbsp;1</span>
       </div>
       <div class="lp-pcard">
-        <div class="lp-ctype cfp">// False Positive</div>
+        <div class="lp-ctype cfp">False Positive</div>
         <div class="lp-ctitle">⭐ Stellar Mimic</div>
         <div class="lp-cdesc">A brightness dip caused by a background eclipsing binary, a grazing stellar eclipse, or instrumental artifacts. These can closely resemble planetary transits but require different physical explanations.</div>
         <span class="lp-cbadge bdgf">Target&nbsp;=&nbsp;0</span>
@@ -1394,10 +1394,10 @@ header[data-testid="stHeader"]     { display: none !important; }
     <p class="lp-lbl">Capabilities</p>
     <h2 class="lp-h2">Built for<br>exoplanet analysis.</h2>
     <div class="lp-feat-g">
-      <div class="lp-fcard"><div class="lp-ficon">🤖</div><div><div class="lp-fnum">// 01</div><div class="lp-ftitle">Multi-Model AI</div><div class="lp-fdesc">Logistic Regression, Decision Tree, Random Forest, and XGBoost compared with 5-fold CV and PR-AUC as primary metric.</div></div></div>
-      <div class="lp-fcard"><div class="lp-ficon">⚖️</div><div><div class="lp-fnum">// 02</div><div class="lp-ftitle">Imbalance Handling</div><div class="lp-fdesc">Class weighting and SMOTE (inside CV folds) tested for the 36/64 class split. XGBoost scale_pos_weight = 1.7611.</div></div></div>
-      <div class="lp-fcard"><div class="lp-ficon">🔍</div><div><div class="lp-fnum">// 03</div><div class="lp-ftitle">Explainable AI</div><div class="lp-fdesc">SHAP TreeExplainer for global and local explanations. Permutation importance cross-validates feature rankings.</div></div></div>
-      <div class="lp-fcard"><div class="lp-ficon">🚀</div><div><div class="lp-fnum">// 04</div><div class="lp-ftitle">Interactive Analysis</div><div class="lp-fdesc">Single-KOI prediction form, batch CSV upload, and candidate explorer for 1,977 unlabeled Kepler objects.</div></div></div>
+      <div class="lp-fcard"><div class="lp-ficon">🤖</div><div><div class="lp-fnum">01</div><div class="lp-ftitle">Multi-Model AI</div><div class="lp-fdesc">Logistic Regression, Decision Tree, Random Forest, and XGBoost compared with 5-fold CV and PR-AUC as primary metric.</div></div></div>
+      <div class="lp-fcard"><div class="lp-ficon">⚖️</div><div><div class="lp-fnum">02</div><div class="lp-ftitle">Imbalance Handling</div><div class="lp-fdesc">Class weighting and SMOTE (inside CV folds) tested for the 36/64 class split. XGBoost scale_pos_weight = 1.7611.</div></div></div>
+      <div class="lp-fcard"><div class="lp-ficon">🔍</div><div><div class="lp-fnum">03</div><div class="lp-ftitle">Explainable AI</div><div class="lp-fdesc">SHAP TreeExplainer for global and local explanations. Permutation importance cross-validates feature rankings.</div></div></div>
+      <div class="lp-fcard"><div class="lp-ficon">🚀</div><div><div class="lp-fnum">04</div><div class="lp-ftitle">Interactive Analysis</div><div class="lp-fdesc">Single-KOI prediction form, batch CSV upload, and candidate explorer for 1,977 unlabeled Kepler objects.</div></div></div>
     </div>
   </div>
 </section>
@@ -1406,7 +1406,7 @@ header[data-testid="stHeader"]     { display: none !important; }
 <section class="lp-cta-sect" id="launch">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(99,102,241,.07) 0%,transparent 65%);pointer-events:none"></div>
   <div class="lp-cta-inner">
-    <p class="lp-lbl" style="text-align:center">// Mission Control</p>
+    <p class="lp-lbl" style="text-align:center">Mission Control</p>
     <h2 class="lp-cta-h">Ready to explore<br><span class="cy">a new world?</span></h2>
     <p class="lp-cta-d">Enter a Kepler Object of Interest and let AI analyze the evidence hidden in its stellar signal.</p>
     <div id="lp-final-cta-anchor" style="height:1px"></div>
@@ -1441,7 +1441,7 @@ header[data-testid="stHeader"]     { display: none !important; }
         st.markdown(
             "<p style='text-align:center;font-family:Courier New,monospace;"
             "font-size:.7rem;letter-spacing:.2em;color:#475569;text-transform:uppercase;"
-            "margin-bottom:12px'>// Launch the classifier to begin</p>",
+            "margin-bottom:12px'>Launch the classifier to begin</p>",
             unsafe_allow_html=True,
         )
         if st.button("🚀  START EXPLORING  →", use_container_width=True, type="primary"):
