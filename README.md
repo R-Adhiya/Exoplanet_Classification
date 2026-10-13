@@ -545,6 +545,179 @@ The project covers the complete ML lifecycle — from raw NASA data acquisition 
 
 ---
 
+## Experiment Tracking (MLflow)
+
+All model training runs are logged with [MLflow](https://mlflow.org) using a local file-based tracking store (`./mlruns`). No external account required.
+
+Three experiments are tracked:
+
+| Experiment | Runs | What's logged |
+|------------|------|---------------|
+| Baseline Models | 4 | LR, DT, RF, XGBoost (no imbalance handling) |
+| Imbalance Strategies | 8 | 4 models × class-weight + SMOTE strategies |
+| Final Model | 1 | Best XGBoost with threshold=0.61 |
+
+**To view the MLflow UI:**
+
+```bash
+# From the project root
+mlflow ui --backend-store-uri mlruns
+# Then open: http://127.0.0.1:5000
+```
+
+**To re-run all tracking:**
+
+```bash
+python src/task2_mlflow_tracking.py
+```
+
+---
+
+## Local Inference API (FastAPI)
+
+A FastAPI application (`api.py`) exposes the same model and preprocessor used by the Streamlit app as HTTP endpoints.
+
+**Start the API:**
+
+```bash
+uvicorn api:app --reload --port 8000
+```
+
+**Endpoints:**
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/health` | Returns `{"status": "ok", "model": "XGBoost"}` |
+| POST | `/predict` | Single candidate prediction |
+| POST | `/predict/batch` | Batch predictions |
+| GET | `/docs` | Interactive Swagger UI |
+
+**Sample request:**
+
+```bash
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "koi_period": 9.49,
+    "koi_duration": 3.45,
+    "koi_depth": 506,
+    "koi_prad": 2.2,
+    "koi_impact": 0.12,
+    "koi_model_snr": 45.0,
+    "koi_teq": 865,
+    "koi_insol": 67,
+    "koi_steff": 5440,
+    "koi_slogg": 4.45,
+    "koi_srad": 0.93
+  }'
+```
+
+**Sample response:**
+
+```json
+{
+  "prediction": "CONFIRMED",
+  "probability": 0.823,
+  "threshold_used": 0.61
+}
+```
+
+Install API dependencies:
+
+```bash
+pip install -r requirements-api.txt
+```
+
+---
+
+## Docker Deployment
+
+A `Dockerfile` containerizes the FastAPI API for deployment.
+
+**Build and run locally:**
+
+```bash
+# Build
+docker build -t exoplanet-api .
+
+# Run (maps container port 7860 to local 8000)
+docker run -p 8000:7860 exoplanet-api
+
+# Test
+curl http://localhost:8000/health
+```
+
+**Deploy to Hugging Face Spaces (Docker SDK):**
+
+See the numbered steps in the [Hugging Face Spaces Deployment](#hugging-face-spaces-deployment) section below.
+
+---
+
+## Hugging Face Spaces Deployment
+
+Follow these steps to host the FastAPI API as a public Docker Space on Hugging Face (separate from the Streamlit Community Cloud deployment):
+
+1. **Create a Hugging Face account** at [huggingface.co](https://huggingface.co) (free tier is sufficient).
+
+2. **Create a new Space:**
+   - Go to [huggingface.co/new-space](https://huggingface.co/new-space)
+   - Space name: `exoplanet-api` (or your choice)
+   - License: `mit`
+   - **SDK: Docker** (not Gradio or Streamlit)
+   - Visibility: Public
+   - Click **Create Space**
+
+3. **Clone the Space repo:**
+   ```bash
+   git clone https://huggingface.co/spaces/<your-username>/exoplanet-api
+   cd exoplanet-api
+   ```
+
+4. **Copy the required files into the Space repo:**
+   ```bash
+   # From your project root:
+   cp api.py                              exoplanet-api/
+   cp requirements-api.txt               exoplanet-api/
+   cp Dockerfile                          exoplanet-api/
+   cp HF_README.md                        exoplanet-api/README.md
+   mkdir -p exoplanet-api/models/final   exoplanet-api/models
+   mkdir -p exoplanet-api/reports/phase_7
+   cp models/final/final_model.pkl        exoplanet-api/models/final/
+   cp models/final/final_model_metadata.json exoplanet-api/models/final/
+   cp models/preprocessor.pkl             exoplanet-api/models/
+   cp reports/phase_7/final_threshold.json exoplanet-api/reports/phase_7/
+   ```
+
+5. **Commit and push to Hugging Face:**
+   ```bash
+   cd exoplanet-api
+   git add .
+   git commit -m "Add FastAPI exoplanet classification API"
+   git push
+   ```
+   > If you get a Git LFS warning for the `.pkl` files, install Git LFS:
+   > `git lfs install && git lfs track "*.pkl" && git add .gitattributes`
+
+6. **Wait for the build** (~3-5 minutes). Watch the build log in the Space's **Logs** tab on Hugging Face.
+
+7. **Your API is live** at:
+   `https://<your-username>-exoplanet-api.hf.space`
+
+   Test it:
+   ```bash
+   curl https://<your-username>-exoplanet-api.hf.space/health
+   curl -X POST https://<your-username>-exoplanet-api.hf.space/predict \
+     -H "Content-Type: application/json" \
+     -d '{"koi_period":9.49,"koi_duration":3.45,"koi_depth":506,
+          "koi_prad":2.2,"koi_impact":0.12,"koi_model_snr":45.0,
+          "koi_teq":865,"koi_insol":67,"koi_steff":5440,
+          "koi_slogg":4.45,"koi_srad":0.93}'
+   ```
+
+   Interactive docs: `https://<your-username>-exoplanet-api.hf.space/docs`
+
+---
+
 ## License
 
 This project uses publicly available NASA data from the Exoplanet Archive.

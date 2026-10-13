@@ -1,0 +1,39 @@
+# Environments
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Git history
+.git/
+.gitignore
+
+# MLflow runs
+mlruns/
+
+# Raw and processed data (not needed at runtime)
+data/
+
+# Source training scripts
+src/
+notebooks/
+
+# Reports and plots
+reports/
+plots/
+
+# Large model files not used by the API
+models/baseline/
+models/tuned/
+models/imbalance/
+
+# Streamlit config and app
+.streamlit/
+app.py
+
+# Dev artefacts
+*.log
+*.pdf
+phase1_run.log
+Exoplanet_Interview_Prep.pdf
