@@ -49,10 +49,9 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
 # ---------------------------------------------------------------------------
 ROOT      = Path(__file__).resolve().parent.parent
 DATA_PROC = ROOT / "data" / "processed"
-MLRUNS    = ROOT / "mlruns"
-MLRUNS.mkdir(exist_ok=True)
-
-mlflow.set_tracking_uri(MLRUNS.as_uri())
+# Use SQLite backend (MLflow 2.20+ deprecated the file store)
+DB_PATH = ROOT / "mlflow.db"
+mlflow.set_tracking_uri(f"sqlite:///{DB_PATH}")
 
 # ---------------------------------------------------------------------------
 # Load data
@@ -206,5 +205,5 @@ print(f"  Test PR-AUC     : {test_metrics['test_pr_auc']:.4f}")
 print(f"  Test F1         : {test_metrics['test_f1_conf']:.4f}")
 print()
 print("  All trials logged to MLflow experiment: 'Optuna XGBoost Study'")
-print("  View: mlflow ui --backend-store-uri mlruns")
+print("  View: mlflow ui --backend-store-uri sqlite:///mlflow.db")
 print("  Then: http://127.0.0.1:5000")

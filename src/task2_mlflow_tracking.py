@@ -59,10 +59,10 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
 ROOT      = Path(__file__).resolve().parent.parent
 DATA_PROC = ROOT / "data" / "processed"
 
-# Set local file-based MLflow tracking URI (./mlruns)
-MLRUNS_DIR = ROOT / "mlruns"
-MLRUNS_DIR.mkdir(exist_ok=True)
-mlflow.set_tracking_uri(MLRUNS_DIR.as_uri())
+# Use SQLite backend (MLflow 2.20+ deprecated the file store)
+# View UI: mlflow ui --backend-store-uri sqlite:///mlflow.db
+DB_PATH = ROOT / "mlflow.db"
+mlflow.set_tracking_uri(f"sqlite:///{DB_PATH}")
 print(f"[INFO] MLflow tracking URI: {mlflow.get_tracking_uri()}")
 
 # ---------------------------------------------------------------------------
