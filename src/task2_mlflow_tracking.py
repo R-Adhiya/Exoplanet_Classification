@@ -127,10 +127,28 @@ def log_run(experiment_name, run_name, model, params, X_tr, y_tr, X_te, y_te,
         mlflow.log_metrics(metrics)
 
         # Log model artifact
+        # Pass skops_trusted_types for tree-based models (MLflow 2.20+ security requirement)
+        _SKOPS_TRUSTED = [
+            "sklearn.tree._tree.Tree",
+            "sklearn.tree._classes.DecisionTreeClassifier",
+            "sklearn.ensemble._forest.RandomForestClassifier",
+            "numpy.core.multiarray.scalar",
+            "numpy.dtype",
+            "numpy.ndarray",
+            "builtins.float",
+            "builtins.int",
+            "builtins.bool",
+            "builtins.str",
+            "builtins.list",
+            "builtins.dict",
+            "builtins.tuple",
+            "builtins.NoneType",
+        ]
         if isinstance(model, XGBClassifier):
             mlflow.xgboost.log_model(model, artifact_path="model")
         else:
-            mlflow.sklearn.log_model(model, artifact_path="model")
+            mlflow.sklearn.log_model(model, artifact_path="model",
+                                     skops_trusted_types=_SKOPS_TRUSTED)
 
         # Log tags
         if tags:
